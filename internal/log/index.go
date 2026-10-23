@@ -10,13 +10,13 @@ import (
 var (
 	offWidth uint64 = 4
 	posWidth uint64 = 8
-	entWidth = offWidth + posWidth
+	entWidth        = offWidth + posWidth
 )
 
 type index struct {
-	file	*os.File
-	mmap 	gommap.MMap
-	size 	uint64
+	file *os.File
+	mmap gommap.MMap
+	size uint64
 }
 
 func newIndex(f *os.File, c Config) (*index, error) {
@@ -66,7 +66,7 @@ func (i *index) Read(in int64) (out uint32, pos uint64, err error) {
 		out = uint32(in)
 	}
 	pos = uint64(out) * entWidth
-	if i.size < pos + entWidth {
+	if i.size < pos+entWidth {
 		return 0, 0, io.EOF
 	}
 	out = enc.Uint32(i.mmap[pos : pos+offWidth])
